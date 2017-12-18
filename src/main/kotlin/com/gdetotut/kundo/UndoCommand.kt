@@ -6,13 +6,11 @@ import java.util.ArrayList
 /**
  * The UndoCommand class is the base class of all commands stored on an UndoStack.
  */
-open class UndoCommand(text: String?, parent: UndoCommand?) : Serializable {
+open class UndoCommand(var text: String, parent: UndoCommand?) : Serializable {
 
-    var text: String? = null
     var childLst: MutableList<UndoCommand>? = null
 
     init {
-        this.text = text
         if (parent != null) {
             if (parent.childLst == null) {
                 parent.childLst = ArrayList()
@@ -34,7 +32,7 @@ open class UndoCommand(text: String?, parent: UndoCommand?) : Serializable {
      *
      * @return Integer unique to this command's class or -1 if the command doesn't support compression.
      */
-    fun id(): Int {
+    open fun id(): Int {
         return -1
     }
 
@@ -53,7 +51,7 @@ open class UndoCommand(text: String?, parent: UndoCommand?) : Serializable {
      * @param cmd Command to try merge with
      * @return True on success, otherwise returns false.
      */
-    fun mergeWith(cmd: UndoCommand): Boolean {
+    open fun mergeWith(cmd: UndoCommand): Boolean {
         return false
     }
 

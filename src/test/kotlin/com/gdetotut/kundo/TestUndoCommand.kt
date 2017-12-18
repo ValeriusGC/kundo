@@ -1,8 +1,7 @@
-package com.gdetotut.kundo.aux
+package com.gdetotut.kundo
 
-import com.gdetotut.kundo.UndoCommand
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
@@ -60,6 +59,16 @@ class TestUndoCommand {
         assertEquals(null, cmdChild.child(-1))
         assertEquals(null, cmdChild.child(0))
         assertEquals(null, cmdChild.child(1))
+    }
+
+    @Test
+    fun text() {
+        run {
+            val cmd = UndoCommand("", null)
+            assertEquals("", cmd.text)
+            cmd.text = "new"
+            assertEquals("new", cmd.text)
+        }
     }
 
 }

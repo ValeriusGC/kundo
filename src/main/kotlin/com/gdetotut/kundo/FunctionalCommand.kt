@@ -4,17 +4,19 @@ import java.io.Serializable
 import java.util.Objects
 
 class FunctionalCommand<V : Serializable> @Throws(Exception::class)
-constructor(text: String, getter: Getter<V>, private val setter: Setter<V>, private val newValue: V, parent: UndoCommand)
+
+constructor(text: String, getter: () -> V?, private val setter: (V?) -> Unit,
+            private val newValue: V, parent: UndoCommand?)
     : UndoCommand(text, parent) {
 
-    private val oldValue: V = getter.get()
+    private val oldValue: V? = getter()
 
     public override fun doUndo() {
-        setter.set(oldValue)
+        setter(oldValue)
     }
 
     public override fun doRedo() {
-        setter.set(newValue)
+        setter(newValue)
     }
 
     override fun equals(o: Any?): Boolean {
