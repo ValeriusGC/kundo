@@ -3,18 +3,11 @@ package com.gdetotut.kundo
 import java.io.Serializable
 import java.util.Objects
 
-/**
- *
- * @param <V> generic type for this class.
-</V> */
 class FunctionalCommand<V : Serializable> @Throws(Exception::class)
 constructor(text: String, getter: Getter<V>, private val setter: Setter<V>, private val newValue: V, parent: UndoCommand)
     : UndoCommand(text, parent) {
-    private val oldValue: V
 
-    init {
-        this.oldValue = getter.get()
-    }
+    private val oldValue: V = getter.get()
 
     public override fun doUndo() {
         setter.set(oldValue)
